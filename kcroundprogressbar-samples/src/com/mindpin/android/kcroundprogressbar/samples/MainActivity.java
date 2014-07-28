@@ -37,10 +37,13 @@ public class MainActivity extends ListActivity {
 
     private List<? extends Map<String, ?>> getData() {
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+        addItem(data, "Simple", Simple.class);
         addItem(data, "Mission 1", Mission1.class);
         addItem(data, "Mission 2", Mission2.class);
         addItem(data, "Mission 3", Mission3.class);
-//        addItem(data, "other", OtherActivity.class);
+        addItem(data, "Mission 4-1", Mission41.class);
+        addItem(data, "Mission 4-2", Mission42.class);
+        addItem(data, "set_current_smooth(99)", Smooth99.class);
 
         return data;
     }

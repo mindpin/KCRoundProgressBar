@@ -16,11 +16,11 @@ public class Mission3 extends Activity {
         KCRoundProgressBar progressBar = (KCRoundProgressBar) findViewById(R.id.progressBar);
         progressBar.set_width_px(130);
         progressBar.set_text_display(true);
+        progressBar.set_border_display(true);
 //        progressBar.set_text_size(40);
         progressBar.set_current(39);
         progressBar.set_fg_color(Color.parseColor("#FFEC03"));
         progressBar.set_bg_color(Color.parseColor("#00000000"));
         progressBar.set_thickness(0.3f);
-        progressBar.set_border_display(true);
     }
 }

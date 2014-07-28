@@ -22,9 +22,13 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+        <activity android:name=".Simple"/>
         <activity android:name=".Mission1"/>
         <activity android:name=".Mission2"/>
         <activity android:name=".Mission3"/>
+        <activity android:name=".Mission41"/>
+        <activity android:name=".Mission42"/>
+        <activity android:name=".Smooth99"/>
 
     </application>
 
