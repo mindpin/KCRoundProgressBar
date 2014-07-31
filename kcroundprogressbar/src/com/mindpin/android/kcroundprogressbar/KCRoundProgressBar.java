@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -68,11 +69,14 @@ public class KCRoundProgressBar extends View {
     private RectF circleOuterContour = new RectF();
     private RectF circleInnerContour = new RectF();
     private RectF borderBounds = new RectF();
+    static final boolean GREATER_THEN_4 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     //Animation
     //The amount of pixels to move the bar by on each draw
     private int spinSpeed = 2;
     //The number of milliseconds to wait inbetween each draw
-    private int delayMillis = 0;
+    private int delayMillis = GREATER_THEN_4 ? 100 : 0;
+//    private int delayMillis = 0;
+    private int smoothStep = GREATER_THEN_4 ? 10 : 20;
     private Handler spinHandler = new Handler() {
         /**
          * This is the code that will increment the progress variable
@@ -103,7 +107,6 @@ public class KCRoundProgressBar extends View {
          */
         @Override
         public void handleMessage(Message msg) {
-            invalidate();
             if (current < target) {
                 int tmp = current + spinSpeed;
                 if (tmp > target)
@@ -227,7 +230,7 @@ public class KCRoundProgressBar extends View {
 //        int tmp = 360 * (num - min) / (max - min);
         target = num;
         if (target > current) {
-            spinSpeed = (target - current) / 20;
+            spinSpeed = (target - current) / smoothStep;
             smoothHandler.sendEmptyMessage(0);
         }
     }
