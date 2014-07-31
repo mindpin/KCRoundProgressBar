@@ -77,7 +77,7 @@ public void set_current_smooth(int num)
 请参考示例
 
 
-依赖库
+参考
 ---------------------
 * [destinyd/android-archetypes][android-archetypes]
 * [Todd-Davies/ProgressWheel][ProgressWheel]
