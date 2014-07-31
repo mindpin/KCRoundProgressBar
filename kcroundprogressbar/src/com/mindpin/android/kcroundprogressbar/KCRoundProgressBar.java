@@ -9,14 +9,12 @@ import android.graphics.Shader;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.mindpin.android.kcroundprogressbar.common.DisplayModule;
-import com.mindpin.android.kcroundprogressbar.common.TimeModule;
 
 public class KCRoundProgressBar extends View {
-    private static final String TAG = "KCRoundProgressBar";
+//    private static final String TAG = "KCRoundProgressBar";
     private static final int TRANSPARENT = 0x00000000;
     private static final int DEFAULT_MIN = 0;
     private int min = DEFAULT_MIN, max = DEFAULT_MAX, current = DEFAULT_MIN;
@@ -508,7 +506,7 @@ public class KCRoundProgressBar extends View {
      * Check if the wheel is currently spinning
      */
 
-    public boolean isSpinning() {
+    protected boolean isSpinning() {
         if (isSpinning) {
             return true;
         } else {
@@ -519,7 +517,7 @@ public class KCRoundProgressBar extends View {
     /**
      * Reset the count (in increment mode)
      */
-    public void resetCount() {
+    protected void resetCount() {
         progress = 0;
         setText("0%");
         invalidate();
@@ -528,7 +526,7 @@ public class KCRoundProgressBar extends View {
     /**
      * Turn off spin mode
      */
-    public void stopSpinning() {
+    protected void stopSpinning() {
         isSpinning = false;
         progress = 0;
         spinHandler.removeMessages(0);
@@ -538,7 +536,7 @@ public class KCRoundProgressBar extends View {
     /**
      * Puts the view on spin mode
      */
-    public void spin() {
+    protected void spin() {
         isSpinning = true;
         spinHandler.sendEmptyMessage(0);
     }
@@ -546,7 +544,7 @@ public class KCRoundProgressBar extends View {
     /**
      * Increment the progress by 1 (of 360)
      */
-    public void incrementProgress() {
+    protected void incrementProgress() {
         isSpinning = false;
         progress++;
         if (progress > 360)
@@ -559,7 +557,7 @@ public class KCRoundProgressBar extends View {
     /**
      * Set the progress to a specific value
      */
-    public void setProgress(int i) {
+    protected void setProgress(int i) {
         isSpinning = false;
         progress = i;
         spinHandler.sendEmptyMessage(0);
@@ -575,7 +573,7 @@ public class KCRoundProgressBar extends View {
      *
      * @param text the text to show ('\n' constitutes a new line)
      */
-    public void setText(String text) {
+    protected void setText(String text) {
         this.text = text;
         splitText = this.text.split("\n");
     }
@@ -588,27 +586,27 @@ public class KCRoundProgressBar extends View {
 //        this.circleRadius = circleRadius;
 //    }
 
-    public int getBarLength() {
+    protected int getBarLength() {
         return barLength;
     }
 
-    public void setBarLength(int barLength) {
+    protected void setBarLength(int barLength) {
         this.barLength = barLength;
     }
 
-    public int getBarWidth() {
+    protected int getBarWidth() {
         return barWidth;
     }
 
-    public void setBarWidth(int barWidth) {
+    protected void setBarWidth(int barWidth) {
         this.barWidth = barWidth;
     }
 
-    public int getTextSize() {
+    protected int getTextSize() {
         return textSize;
     }
 
-    public void setTextSize(int textSize) {
+    protected void setTextSize(int textSize) {
         this.textSize = textSize;
     }
 
@@ -616,7 +614,7 @@ public class KCRoundProgressBar extends View {
         return paddingTop;
     }
 
-    public void setPaddingTop(int paddingTop) {
+    protected void setPaddingTop(int paddingTop) {
         this.paddingTop = paddingTop;
     }
 
@@ -624,7 +622,7 @@ public class KCRoundProgressBar extends View {
         return paddingBottom;
     }
 
-    public void setPaddingBottom(int paddingBottom) {
+    protected void setPaddingBottom(int paddingBottom) {
         this.paddingBottom = paddingBottom;
     }
 
@@ -632,7 +630,7 @@ public class KCRoundProgressBar extends View {
         return paddingLeft;
     }
 
-    public void setPaddingLeft(int paddingLeft) {
+    protected void setPaddingLeft(int paddingLeft) {
         this.paddingLeft = paddingLeft;
     }
 
@@ -640,72 +638,72 @@ public class KCRoundProgressBar extends View {
         return paddingRight;
     }
 
-    public void setPaddingRight(int paddingRight) {
+    protected void setPaddingRight(int paddingRight) {
         this.paddingRight = paddingRight;
     }
 
-    public int getBarColor() {
+    protected int getBarColor() {
         return barColor;
     }
 
-    public void setBarColor(int barColor) {
+    protected void setBarColor(int barColor) {
         this.barColor = barColor;
     }
 
-    public int getCircleColor() {
+    protected int getCircleColor() {
         return circleColor;
     }
 
-    public void setCircleColor(int circleColor) {
+    protected void setCircleColor(int circleColor) {
         this.circleColor = circleColor;
     }
 
-    public int getRimColor() {
+    protected int getRimColor() {
         return rimColor;
     }
 
-    public void setRimColor(int rimColor) {
+    protected void setRimColor(int rimColor) {
         this.rimColor = rimColor;
     }
 
 
-    public Shader getRimShader() {
+    protected Shader getRimShader() {
         return rimPaint.getShader();
     }
 
-    public void setRimShader(Shader shader) {
+    protected void setRimShader(Shader shader) {
         this.rimPaint.setShader(shader);
     }
 
-    public int getTextColor() {
+    protected int getTextColor() {
         return textColor;
     }
 
-    public void setTextColor(int textColor) {
+    protected void setTextColor(int textColor) {
         this.textColor = textColor;
     }
 
-    public int getSpinSpeed() {
+    protected int getSpinSpeed() {
         return spinSpeed;
     }
 
-    public void setSpinSpeed(int spinSpeed) {
+    protected void setSpinSpeed(int spinSpeed) {
         this.spinSpeed = spinSpeed;
     }
 
-    public int getRimWidth() {
+    protected int getRimWidth() {
         return rimWidth;
     }
 
-    public void setRimWidth(int rimWidth) {
+    protected void setRimWidth(int rimWidth) {
         this.rimWidth = rimWidth;
     }
 
-    public int getDelayMillis() {
+    protected int getDelayMillis() {
         return delayMillis;
     }
 
-    public void setDelayMillis(int delayMillis) {
+    protected void setDelayMillis(int delayMillis) {
         this.delayMillis = delayMillis;
     }
 }
