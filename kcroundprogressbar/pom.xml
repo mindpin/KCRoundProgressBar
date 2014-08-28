@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.mindpin.android.kcroundprogressbar</groupId>
         <artifactId>kcroundprogressbar-parent</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
