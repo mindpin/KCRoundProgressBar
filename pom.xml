@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindpin.android.kcroundprogressbar</groupId>
 	<artifactId>kcroundprogressbar-parent</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2-SNAPHOST</version>
 	<packaging>pom</packaging>
 	<name>kcroundprogressbar - Parent</name>
 
