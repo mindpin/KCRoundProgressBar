@@ -44,6 +44,7 @@ public class MainActivity extends ListActivity {
         addItem(data, "Mission 4-1", Mission41.class);
         addItem(data, "Mission 4-2", Mission42.class);
         addItem(data, "set_current_smooth(99)", Smooth99.class);
+        addItem(data, "Mission KC Android", MissionKCAndroid.class);
 
         return data;
     }

@@ -29,6 +29,7 @@
         <activity android:name=".Mission41"/>
         <activity android:name=".Mission42"/>
         <activity android:name=".Smooth99"/>
+        <activity android:name=".MissionKCAndroid"/>
 
     </application>
 

@@ -2,14 +2,12 @@ package com.mindpin.android.kcroundprogressbar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
+import android.graphics.*;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.mindpin.android.kcroundprogressbar.common.DisplayModule;
@@ -18,6 +16,7 @@ public class KCRoundProgressBar extends View {
 //    private static final String TAG = "KCRoundProgressBar";
     private static final int TRANSPARENT = 0x00000000;
     private static final int DEFAULT_MIN = 0;
+    private static final String TAG = "KCRoundProgressBar";
     private int min = DEFAULT_MIN, max = DEFAULT_MAX, current = DEFAULT_MIN;
     private static final int DEFAULT_MAX = 100;
     // 显示border时，border厚度恒为3
@@ -59,12 +58,14 @@ public class KCRoundProgressBar extends View {
     private Paint circlePaint = new Paint();
     private Paint rimPaint = new Paint();
     private Paint textPaint = new Paint();
+    private Paint textBoldPaint = new Paint();
     private Paint contourPaint = new Paint();
     private Paint borderPaint = new Paint();
     //Rectangles
     @SuppressWarnings("unused")
     private RectF rectBounds = new RectF();
     private RectF circleBounds = new RectF();
+    private RectF rimBounds = new RectF();
     //内外边
     private RectF circleOuterContour = new RectF();
     private RectF circleInnerContour = new RectF();
@@ -153,11 +154,23 @@ public class KCRoundProgressBar extends View {
     // 设置是否显示进度条组件中间的数字，默认不显示
     public void set_text_display(boolean flag) {
         bTextDisplay = flag;
-        if (bTextDisplay)
-            setText(String.valueOf(current));
+        init_text();
+        //一个handler 操作
+    }
+
+    private void init_text() {
+        if (bTextDisplay) {
+            if(text_show_type == TextShowType.CURRENT)
+                setText(String.valueOf(current));
+            else
+                setText(String.valueOf(get_current_percent()) + "%");
+        }
         else
             setText("");
-        //一个handler 操作
+    }
+
+    private int get_current_percent() {
+        return (int)(100f * current / max);
     }
 
     // 设置组件宽度，默认值为空，不设置宽度，组件无法初始化
@@ -241,7 +254,7 @@ public class KCRoundProgressBar extends View {
 
     private float getScaleBarWidth() {
         // 半径 * scale
-        return getWidth() * scale / 2 + 1;
+        return getWidth() * scale / 2;
     }
 
 
@@ -343,6 +356,13 @@ public class KCRoundProgressBar extends View {
         circlePaint.setAntiAlias(true);
         circlePaint.setStyle(Paint.Style.FILL);
 
+        textBoldPaint.setColor(textColor);
+        textBoldPaint.setStyle(Paint.Style.FILL);
+        textBoldPaint.setAntiAlias(true);
+        textBoldPaint.setTextSize(textSize);
+        textBoldPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        textBoldPaint.setFakeBoldText(true);
+
         textPaint.setColor(textColor);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setAntiAlias(true);
@@ -389,16 +409,30 @@ public class KCRoundProgressBar extends View {
             fullRadius = (width - paddingRight ) / 2;
             circleRadius = (fullRadius - barWidth - BORDER_WIDTH - BORDER_SPACING);
 
-            circleBounds = new RectF(paddingLeft + getBarPadding() + getBorderPadding(),
-                    paddingTop + getBarPadding() +  + getBorderPadding(),
-                    width - paddingRight - getBarPadding() - getBorderPadding(),
-                    height - paddingBottom - getBarPadding() - getBorderPadding()
+            circleBounds = new RectF(paddingLeft + getBarPadding() + getBorderPadding() + getScaleBarWidth()/2,
+                    paddingTop + getBarPadding() +  + getBorderPadding() + getScaleBarWidth()/2,
+                    width - paddingRight - getBarPadding() - getBorderPadding() - getScaleBarWidth()/2,
+                    height - paddingBottom - getBarPadding() - getBorderPadding() - getScaleBarWidth()/2
+            );
+            rimBounds = new RectF(paddingLeft + getBarPadding() + getBorderPadding(),
+                    paddingTop + getBarPadding() + getBorderPadding(),
+                    width - paddingRight - getBarPadding() - getBorderPadding() - getBorderPadding(),
+                    height - paddingBottom - getBarPadding() - getBorderPadding() - getBorderPadding()
             );
         } else {
-            circleBounds = new RectF(paddingLeft + getBarPadding(),
+//            circleBounds = new RectF(paddingLeft + getBarPadding(),
+//                    paddingTop + getBarPadding(),
+//                    width - paddingRight - getBarPadding(),
+//                    height - paddingBottom - getBarPadding());
+            rimBounds = new RectF(paddingLeft + getBarPadding(),
                     paddingTop + getBarPadding(),
                     width - paddingRight - getBarPadding(),
                     height - paddingBottom - getBarPadding());
+            circleBounds = new RectF(paddingLeft + getBarPadding() + getScaleBarWidth()/2,
+                    paddingTop + getBarPadding() + getScaleBarWidth() /2,
+                    width - paddingRight - getBarPadding() - getBorderPadding() - getScaleBarWidth() /2 ,
+                    height - paddingBottom - getBarPadding() - getBorderPadding() - getScaleBarWidth() /2
+            );
 
             fullRadius = (width - paddingRight) / 2;
             circleRadius = (fullRadius - barWidth);
@@ -406,15 +440,15 @@ public class KCRoundProgressBar extends View {
     }
 
     private int getBorderPadding() {
-        return BORDER_WIDTH / 2 + 1;
+        return BORDER_WIDTH / 2;
     }
 
     private int getBarPadding() {
         //空心基本往线条两边扩，所以距离为 / 2 + 1
         if (bBorderDisplay)
-            return BORDER_SPACING + barWidth / 2 + 1;
+            return BORDER_SPACING + barWidth / 2;
         else
-            return barWidth / 2 + 1;
+            return barWidth / 2;
     }
 
     /**
@@ -476,27 +510,49 @@ public class KCRoundProgressBar extends View {
         super.onDraw(canvas);
         //Draw the inner circle
         canvas.drawArc(circleBounds, 360, 360, false, circlePaint);
-        //Draw the rim
-        canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
+//        //Draw the rim
+//        canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
 
         //draw board
 //        canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
 //        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
         //Draw the bar
         if (isSpinning) {
-            canvas.drawArc(circleBounds, startAngle + progress - 90, barLength, false,
+            canvas.drawArc(rimBounds, startAngle + progress - 90, barLength, false,
                     barPaint);
         } else {
-            canvas.drawArc(circleBounds, startAngle - 90, progress, false, barPaint);
+            canvas.drawArc(rimBounds, startAngle - 90, progress, false, barPaint);
         }
         //Draw the text (attempts to center it horizontally and vertically)
         float textHeight = textPaint.descent() - textPaint.ascent();
         float verticalTextOffset = (textHeight / 2) - textPaint.descent();
 
-        for (String s : splitText) {
-            float horizontalTextOffset = textPaint.measureText(s) / 2;
-            canvas.drawText(s, this.getWidth() / 2 - horizontalTextOffset,
+        if(text_show_type == TextShowType.CURRENT) {
+            for (String s : splitText) {
+                    float horizontalTextOffset = textPaint.measureText(s) / 2;
+                    canvas.drawText(s, this.getWidth() / 2 - horizontalTextOffset,
+                            this.getHeight() / 2 + verticalTextOffset, textPaint);
+            }
+        }
+        else{
+            String str_current_percent = String.valueOf(get_current_percent());
+            float percent_width = textBoldPaint.measureText(str_current_percent);
+            float percent_icon_width = textPaint.measureText("%");
+            float percent_offset, percent_icon_offset;
+            percent_offset = (percent_width + percent_icon_width) / 2.0f;
+            percent_icon_offset = (percent_width + percent_icon_width) / 2.0f - percent_icon_width;
+            Log.e(TAG, "str_current_percent:" + str_current_percent);
+            Log.e(TAG, "this.getWidth():" + this.getWidth());
+            Log.e(TAG, "percent_width:" + percent_width);
+            Log.e(TAG, "percent_icon_width:" + percent_icon_width);
+            Log.e(TAG, "percent_offset:" + percent_offset);
+            Log.e(TAG, "percent_icon_offset:" + percent_icon_offset);
+
+            canvas.drawText(str_current_percent, this.getWidth() / 2.0f - percent_offset,
+                this.getHeight() / 2 + verticalTextOffset, textBoldPaint);
+            canvas.drawText("%", this.getWidth() / 2.0f + percent_icon_offset,
                     this.getHeight() / 2 + verticalTextOffset, textPaint);
+
         }
 
         //Draw the border
@@ -708,5 +764,24 @@ public class KCRoundProgressBar extends View {
 
     protected void setDelayMillis(int delayMillis) {
         this.delayMillis = delayMillis;
+    }
+
+    public void set_internal_bg_color(int color){
+        setCircleColor(color); //中心
+    }
+
+    public void set_text_color(int color){
+        setTextColor(color);
+    }
+
+    public enum TextShowType {
+        CURRENT,
+        PERCENTAGE
+    }
+
+    TextShowType text_show_type = TextShowType.CURRENT;
+    public void set_text_show_type(TextShowType type){
+        text_show_type = type;
+        init_text();
     }
 }
