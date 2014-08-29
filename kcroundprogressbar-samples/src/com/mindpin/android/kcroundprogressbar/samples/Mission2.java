@@ -18,6 +18,7 @@ public class Mission2 extends Activity {
         progressBar.set_text_display(true);
 //        progressBar.set_text_size(40);
         progressBar.set_current(25);
+        progressBar.set_text_color(Color.parseColor("#8887EB"));
         progressBar.set_fg_color(Color.parseColor("#8887EB"));
         progressBar.set_bg_color(Color.parseColor("#EEEEEE"));
         progressBar.set_thickness(0.3f);

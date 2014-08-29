@@ -142,7 +142,6 @@ public class KCRoundProgressBar extends View {
 // 参数中的 int 值用下面的这个方法获得
 // int color = Color.parseColor("#636161")
     public void set_fg_color(int color) {
-        setTextColor(color); //前景文字
         setBarColor(color); //前景bar
     }
 
@@ -170,6 +169,8 @@ public class KCRoundProgressBar extends View {
     }
 
     private int get_current_percent() {
+        if(max <= 0)
+            return 0;
         return (int)(100f * current / max);
     }
 
@@ -350,7 +351,9 @@ public class KCRoundProgressBar extends View {
         rimPaint.setColor(rimColor);
         rimPaint.setAntiAlias(true);
         rimPaint.setStyle(Paint.Style.STROKE);
-        rimPaint.setStrokeWidth(rimWidth);
+        rimPaint.setStrokeWidth(barWidth);
+//        rimPaint.setStrokeWidth(rimWidth);
+
 
         circlePaint.setColor(circleColor);
         circlePaint.setAntiAlias(true);
@@ -512,6 +515,7 @@ public class KCRoundProgressBar extends View {
         canvas.drawArc(circleBounds, 360, 360, false, circlePaint);
 //        //Draw the rim
 //        canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
+        canvas.drawArc(rimBounds, 360, 360, false, rimPaint);
 
         //draw board
 //        canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
