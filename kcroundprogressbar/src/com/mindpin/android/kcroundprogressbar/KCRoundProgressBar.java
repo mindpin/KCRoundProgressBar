@@ -541,12 +541,6 @@ public class KCRoundProgressBar extends View {
             float percent_offset, percent_icon_offset;
             percent_offset = (percent_width + percent_icon_width) / 2.0f;
             percent_icon_offset = (percent_width + percent_icon_width) / 2.0f - percent_icon_width;
-            Log.e(TAG, "str_current_percent:" + str_current_percent);
-            Log.e(TAG, "this.getWidth():" + this.getWidth());
-            Log.e(TAG, "percent_width:" + percent_width);
-            Log.e(TAG, "percent_icon_width:" + percent_icon_width);
-            Log.e(TAG, "percent_offset:" + percent_offset);
-            Log.e(TAG, "percent_icon_offset:" + percent_icon_offset);
 
             canvas.drawText(str_current_percent, this.getWidth() / 2.0f - percent_offset,
                 this.getHeight() / 2 + verticalTextOffset, textBoldPaint);
